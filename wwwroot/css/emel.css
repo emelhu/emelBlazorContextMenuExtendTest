@@ -1,0 +1,524 @@
+﻿
+
+
+/*--------------------------------------------------------------------*/
+
+/*<div class="emel-tooltip" >
+    <a href="#" > <span class="emel-tooltiptext" > hintext </span > <img src="/image..." / > </a >
+</div >
+
+<div class="emel-tooltip" >
+    < a href="#" > <img src="/image..." / > <span class="emel-tooltiptext" > hintext </span > </a >
+</div >*/
+
+.emel-tooltiptext {
+	min-width: 50px;
+	max-width: 300px;
+	width: max-content;
+	background-color: rgba(59, 72, 80, 0.9);
+	background-image: linear-gradient(30deg, rgba(59, 72, 80, 0.44), rgba(59, 68, 75, 0.44), rgba(60, 82, 88, 0.44));
+	box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.2);
+	color: yellow;
+	text-align: center;
+	border-radius: 6px;
+	padding: 3px 8px 3px 8px;
+	position: absolute;
+	z-index: 1000;
+}
+
+.emel-tooltip {
+    position: relative;
+    /*display: inline-block;*/
+}
+
+    .emel-tooltip .emel-tooltiptext {
+		display: none;        
+        /*transform: translate(-50%, -5px) scale(0.5);        */
+    }
+
+    .emel-tooltip:hover .emel-tooltiptext {
+		
+        position: relative;
+		display: inline-block;
+    }
+	
+	
+	
+.emel-tooltip-span {
+    position: relative;
+    /*display: inline-block;*/
+}
+
+    .emel-tooltip-span span {
+        /*visibility: hidden;*/
+		display: none;
+        min-width: 50px;
+        max-width: 300px;
+        width: max-content;
+        background-color: rgba(59, 72, 80, 0.9);
+        background-image: linear-gradient(30deg, rgba(59, 72, 80, 0.44), rgba(59, 68, 75, 0.44), rgba(60, 82, 88, 0.44));
+        box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.2);
+        color: yellow;
+        text-align: center;
+        border-radius: 6px;
+        transform: translate(-50%, -5px) scale(0.5);
+        padding: 3px 8px 3px 8px;
+        position: absolute;
+        z-index: 1000;
+    }
+
+    .emel-tooltip-span:hover span {
+        position: relative;
+        /*visibility: visible;*/
+		display: block;
+    }	
+
+/*--------------------------------------------------------------------*/
+/*https://codepen.io/emelhu/pen/XWemwzz*/
+/* 
+  <p emel-tooltip-data="A sample text">
+          Hover over me to see a tooltip
+    </p>
+
+    <a href="#" 
+       emel-tooltip-data="This link goes nowhere"
+       emel-tooltip-data-location="right">
+          A typical anchor element
+    </a>
+	
+	<span emel-tooltip-data="span1 Hint text"  emel-tooltip-data-location="right">span1</span>    
+	
+	!!!! 'left' & 'right' close tooltip to end of container, so if have a text-center text maybe it's showed very far
+*/
+[emel-tooltip-data] {
+    position: relative;
+    z-index: unset;
+}
+
+    /* Positioning and visibility settings of the tooltip */
+    [emel-tooltip-data]:before,
+    [emel-tooltip-data]:after {
+        position: absolute;
+        visibility: hidden;
+        opacity: 0;
+        left: 50%;
+        bottom: calc(100% + 5px); /* 5px is the size of the arrow */
+        pointer-events: none;
+        transition: 0.2s;
+        will-change: transform;
+		z-index: 100000;
+    }
+
+    /* The actual tooltip with a dynamic width */
+    [emel-tooltip-data]:before {
+        content: attr(emel-tooltip-data);
+        padding: 10px 18px;
+        min-width: 50px;
+        max-width: 300px;
+        width: max-content;
+        border-radius: 6px;
+        font-size: 14px;
+        background-color: rgba(59, 72, 80, 0.9);
+        background-image: linear-gradient(30deg, rgba(59, 72, 80, 0.44), rgba(59, 68, 75, 0.44), rgba(60, 82, 88, 0.44));
+        box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.2);
+        color: yellow;
+        text-align: center;
+        white-space: pre-wrap;
+        transform: translate(-50%, -5px) scale(0.5);
+    }
+
+    /* Tooltip arrow */
+    [emel-tooltip-data]:after {
+        content: '';
+        border-style: solid;
+        border-width: 5px 5px 0px 5px;  /*CSS triangle*/ 
+        border-color: rgba(55, 64, 70, 0.9) transparent transparent transparent;
+        transition-duration: 0s; /* If the mouse leaves the element, the transition effects for the tooltip arrow are "turned off" */
+        transform-origin: top; /* Orientation setting for the slide-down effect */
+        transform: translateX(-50%) scaleY(0);
+    }
+
+    /* Tooltip becomes visible at hover */
+    [emel-tooltip-data]:hover:before,
+    [emel-tooltip-data]:hover:after {
+        visibility: visible;
+        opacity: 1;
+    }
+    /* Scales from 0.5 to 1 -> grow effect */
+    [emel-tooltip-data]:hover:before {
+        transition-delay: 0.3s;
+        transform: translate(-50%, -5px) scale(1);
+    }
+    /* 
+  Arrow slide down effect only on mouseenter (NOT on mouseleave)
+*/
+    [emel-tooltip-data]:hover:after {
+        transition-delay: 0.5s; /* Starting after the grow effect */
+        transition-duration: 0.2s;
+        transform: translateX(-50%) scaleY(1);
+    }
+/*
+  That's it for the basic tooltip.
+
+  If you want some adjustability
+  here are some orientation settings you can use:
+*/
+
+/* LEFT */
+/* Tooltip + arrow */
+[emel-tooltip-data-location="left"]:before,
+[emel-tooltip-data-location="left"]:after {
+    left: auto;
+    right: calc(100% + 5px);
+    bottom: 50%;
+}
+
+/* Tooltip */
+[emel-tooltip-data-location="left"]:before {
+    transform: translate(-5px, 50%) scale(0.5);
+}
+
+[emel-tooltip-data-location="left"]:hover:before {
+    transform: translate(-5px, 50%) scale(1);
+}
+
+/* Arrow */
+[emel-tooltip-data-location="left"]:after {
+    border-width: 5px 0px 5px 5px;
+    border-color: transparent transparent transparent rgba(55, 64, 70, 0.9);
+    transform-origin: left;
+    transform: translateY(50%) scaleX(0);
+}
+
+[emel-tooltip-data-location="left"]:hover:after {
+    transform: translateY(50%) scaleX(1);
+}
+
+
+
+/* RIGHT */
+[emel-tooltip-data-location="right"]:before,
+[emel-tooltip-data-location="right"]:after {
+    left: calc(100% + 5px);
+    bottom: 50%;
+}
+
+[emel-tooltip-data-location="right"]:before {
+    transform: translate(5px, 50%) scale(0.5);
+}
+
+[emel-tooltip-data-location="right"]:hover:before {
+    transform: translate(5px, 50%) scale(1);
+}
+
+[emel-tooltip-data-location="right"]:after {
+    border-width: 5px 5px 5px 0px;
+    border-color: transparent rgba(55, 64, 70, 0.9) transparent transparent;
+    transform-origin: right;
+    transform: translateY(50%) scaleX(0);
+}
+
+[emel-tooltip-data-location="right"]:hover:after {
+    transform: translateY(50%) scaleX(1);
+}
+
+
+
+/* BOTTOM */
+[emel-tooltip-data-location="bottom"]:before,
+[emel-tooltip-data-location="bottom"]:after {
+    top: calc(100% + 5px);
+    bottom: auto;
+}
+
+[emel-tooltip-data-location="bottom"]:before {
+    transform: translate(-50%, 5px) scale(0.5);
+}
+
+[emel-tooltip-data-location="bottom"]:hover:before {
+    transform: translate(-50%, 5px) scale(1);
+}
+
+[emel-tooltip-data-location="bottom"]:after {
+    border-width: 0px 5px 5px 5px;
+    border-color: transparent transparent rgba(55, 64, 70, 0.9) transparent;
+    transform-origin: bottom;
+}
+
+/* particular */
+
+/*[emel-tooltip-data]:after {
+    bottom: calc(100% + 3px);
+}
+
+[emel-tooltip-data]:after {
+    border-width: 7px 7px 0px 7px;
+}*/
+
+/*--------------------------------------------------------------------*/
+/* http://jsfiddle.net/JVDFc/ */	
+
+/*
+<a class="emel-tooltip-span-rel" href="http://www.google.com/">
+    Google
+    <span>
+        <img alt="" src="http://www.google.com/images/srpr/logo4w.png" />
+    </span>
+</a>
+<br /><br />
+
+
+<body>
+	.......
+	<script src="css/emel.css.js"></script>
+	
+	<script>
+		SetEmelTooltipRelEvents();
+	</script>
+</body>
+*/
+
+.emel-tooltip-span-rel {
+    position:relative;
+	z-index: unset;
+}
+
+.emel-tooltip-span-rel span {
+    display:none;
+	z-index: 100000;
+}
+
+.emel-tooltip-span-rel:hover span {
+    display:block;
+    position:fixed;
+    overflow:hidden;
+}
+
+
+
+.emel-tooltip-class-rel {
+    position:relative;
+	z-index: unset;
+}
+
+.emel-tooltip-class-rel .emel-tooltiptext {
+    display:none;
+}
+
+.emel-tooltip-class-rel:hover .emel-tooltiptext {
+    display: inline-block;
+    position:fixed;
+    overflow:hidden;
+}
+
+
+
+[emel-tooltip-data-rel] {
+    position: relative;
+    z-index: unset;
+}
+
+[emel-tooltip-data-rel] .emel-tooltiptext {
+    display:none;
+}
+
+[emel-tooltip-data-rel]:hover .emel-tooltiptext {
+    display: block;
+    position:fixed;
+    overflow:hidden;
+}
+
+/*----------------------------------------*/
+
+.emel-shadowed-box {
+    transition: box-shadow .5s;
+    width: 300px;
+    height: 500px;
+    margin: 50px;
+    border-radius: 16px;
+    border: 1px solid #ccc;
+    background: #fff;
+    float: left;
+}
+
+    .emel-shadowed-box:hover {
+        box-shadow: 0 0 16px rgba(33,33,33,.4);
+    }
+
+/*------------------ https://github.com/Append-IT/Blazor.Sidepanel ----------------------*/
+
+#sidepanel.is-open {
+    width: 80%;
+}
+
+@@media (min-width: 768px) {
+    #sidepanel.is-open {
+        width: 50%;
+    }
+}
+
+/*------------------ https://codepen.io/emelhu/pen/abLVXey ----------------------*/
+
+.emel-foldingmenu-menu {
+    color: red;
+    display: inline-block;
+    cursor: pointer;
+    pointer-events: none;
+    /*position: absolute;
+    bottom: 20px;
+    left: 20px;*/
+}
+
+    .emel-foldingmenu-menu:hover {
+        pointer-events: all;
+    }
+
+.emel-foldingmenu-label {
+    display: inline-block;
+    cursor: pointer;
+    pointer-events: all;
+}
+
+.emel-foldingmenu-spacer {
+    display: inline-block;
+    width: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    vertical-align: middle;
+    cursor: pointer;
+    position: relative;
+}
+
+    .emel-foldingmenu-spacer:before {
+        content: "";
+        position: absolute;
+        transition: width 0.25s ease;
+        transition-delay: 0.7s;
+    }
+
+.emel-foldingmenu-item {
+    position: relative;
+    display: inline-block;
+    margin-right: 1rem;
+    top: 10px;
+    opacity: 0;
+    transition: opacity 0.5s ease, top 0.5s ease;
+    transition-delay: 0;
+}
+
+    .emel-foldingmenu-item:hover span {
+        color: brown;
+        font-size: 110%;
+        font-weight: bold;
+        transition-delay: 0.3s;
+    }
+
+.emel-foldingmenu-menu:hover .emel-foldingmenu-spacer:before {
+    width: 100%;
+    transition-delay: 0s;
+}
+
+.emel-foldingmenu-menu:hover .emel-foldingmenu-item {
+    opacity: 1;
+    top: 0px;
+}
+
+.emel-foldingmenu-item:nth-child(1) {
+    transition-delay: 0.45s;
+}
+
+.emel-foldingmenu-item:nth-child(2) {
+    transition-delay: 0.4s;
+}
+
+.emel-foldingmenu-item:nth-child(3) {
+    transition-delay: 0.35s;
+}
+
+.emel-foldingmenu-item:nth-child(4) {
+    transition-delay: 0.3s;
+}
+
+.emel-foldingmenu-item:nth-child(5) {
+    transition-delay: 0.25s;
+}
+
+.emel-foldingmenu-item:nth-child(6) {
+    transition-delay: 0.2s;
+}
+
+.emel-foldingmenu-item:nth-child(7) {
+    transition-delay: 0.15s;
+}
+
+.emel-foldingmenu-item:nth-child(8) {
+    transition-delay: 0.1s;
+}
+
+.emel-foldingmenu-item:nth-child(9) {
+    transition-delay: 0.05s;
+}
+
+.emel-foldingmenu-item:nth-child(10) {
+    transition-delay: 0s;
+}
+
+.emel-foldingmenu-menu:hover .emel-foldingmenu-item:nth-child(1) {
+    transition-delay: 0.25s;
+}
+
+.emel-foldingmenu-menu:hover .emel-foldingmenu-item:nth-child(2) {
+    transition-delay: 0.3s;
+}
+
+.emel-foldingmenu-menu:hover .emel-foldingmenu-item:nth-child(3) {
+    transition-delay: 0.35s;
+}
+
+.emel-foldingmenu-menu:hover .emel-foldingmenu-item:nth-child(4) {
+    transition-delay: 0.4s;
+}
+
+.emel-foldingmenu-menu:hover .emel-foldingmenu-item:nth-child(5) {
+    transition-delay: 0.45s;
+}
+
+.emel-foldingmenu-menu:hover .emel-foldingmenu-item:nth-child(6) {
+    transition-delay: 0.5s;
+}
+
+.emel-foldingmenu-menu:hover .emel-foldingmenu-item:nth-child(7) {
+    transition-delay: 0.55s;
+}
+
+.emel-foldingmenu-menu:hover .emel-foldingmenu-item:nth-child(8) {
+    transition-delay: 0.6s;
+}
+
+.emel-foldingmenu-menu:hover .emel-foldingmenu-item:nth-child(9) {
+    transition-delay: 0.65s;
+}
+
+.emel-foldingmenu-menu:hover .emel-foldingmenu-item:nth-child(10) {
+    transition-delay: 0.7s;
+}
+
+/* 
+<div class="emel-foldingmenu-menu">
+	<div class="emel-foldingmenu-label">FoldingMenuExample</div>
+	<div class="emel-foldingmenu-spacer"></div>
+	<div class="emel-foldingmenu-item"><span>Example1</span></div>
+	<div class="emel-foldingmenu-item"><span>Example2</span></div>
+	<div class="emel-foldingmenu-item"><span>Example3</span></div>
+	<div class="emel-foldingmenu-item"><span>Example4</span></div>
+	<div class="emel-foldingmenu-item"><span>Example5</span></div>
+</div>
+*/
+
+/*----------------------------------------*/
+
+
+/*----------------------------------------*/
+
+
+/*----------------------------------------*/

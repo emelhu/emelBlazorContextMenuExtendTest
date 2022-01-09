@@ -1,0 +1,46 @@
+﻿@page "/"
+
+<PageTitle>BlazorContextMenu extend for iPhone & iPad too  by eMeL</PageTitle>
+
+<h2 class="text-center" style="color:gray;">BlazorContextMenu extend for iPhone & iPad too by eMeL</h2>
+
+<br />
+
+<ContextMenu Id="myMenu">
+    <Item OnClick="@OnClickAsync" Id="Item1">Item 1</Item>
+    <Item OnClick="@OnClickAsync" Id="Item2">Item 2</Item>
+    <Item OnClick="@OnClickAsync" Enabled="false">Item 3 (disabled)</Item>
+    <Seperator />
+    <Item>Submenu
+        <SubMenu>
+            <Item OnClick="@OnClickAsync" Id="Item_S1">Submenu Item 1</Item>
+            <Item OnClick="@OnClickAsync" Id="Item_S2">Submenu Item 2</Item>
+        </SubMenu>
+    </Item>
+</ContextMenu>
+
+<ContextMenuTrigger MenuId="myMenu" style="background-color:lightgray;" emel-tooltip-data-rel="A test page for extend BlazorContextMenu to iPhone & iPad because right-click is 'problematic' on these." >
+    <hr />
+    <h3 class="text-center">Right-Click or Long-Press on me <br />to show the context menu !</h3>
+    <hr />
+</ContextMenuTrigger>
+
+<br />
+
+<p>@selected</p>
+
+@code
+{
+    string selected = string.Empty;
+
+    async Task OnClickAsync(ItemClickEventArgs e)
+    {
+        selected = $"ContextMenu Clicked >>>    Menu: {e.ContextMenuId}     Item: {e.MenuItem.Id}";
+        this.StateHasChanged();
+
+        await Task.Delay(2000);
+
+        selected = string.Empty;
+        this.StateHasChanged();
+    }
+}

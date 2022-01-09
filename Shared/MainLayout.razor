@@ -1,0 +1,29 @@
+﻿@inherits LayoutComponentBase
+
+@inject   IJSRuntime jsRuntime
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+@code 
+{
+    protected override async Task OnAfterRenderAsync(bool firstRender)                                                                    // https://docs.microsoft.com/en-us/aspnet/core/blazor/components/lifecycle?view=aspnetcore-6.0
+    {
+        await jsRuntime.InvokeVoidAsync("SetEmelTooltipRelEvents");    
+    
+        await jsRuntime.InvokeVoidAsync("CreateEmelBlazorContextMenuExtends");            
+    }
+}
